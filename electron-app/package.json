@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "electron-dl": "^4.0.0",
     "minecraft-launcher-core": "^3.18.2",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.3.0",
     "sass": "^1.85.1",
     "tailwindcss": "^4.0.14"

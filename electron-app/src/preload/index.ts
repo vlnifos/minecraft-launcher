@@ -14,42 +14,38 @@ if (process.contextIsolated) {
 
     contextBridge.exposeInMainWorld('electronAPI', {
       // API для скачивания файлов
-      downloadFile: (url, filename) =>
-        ipcRenderer.invoke('download-file', { url, filename }),
+      downloadFile: (url, filename) => ipcRenderer.invoke('download-file', { url, filename }),
 
       downloadFileManual: (url, filename) =>
         ipcRenderer.invoke('download-file-manual', { url, filename }),
 
       // API для работы с директорией скачиваний
-      getDownloadsPath: () =>
-        ipcRenderer.invoke('get-downloads-path'),
+      getDownloadsPath: () => ipcRenderer.invoke('get-downloads-path'),
 
-      getDownloadedFiles: () =>
-        ipcRenderer.invoke('get-downloaded-files'),
+      getDownloadedFiles: () => ipcRenderer.invoke('get-downloaded-files'),
 
       extractZip: (zipPath, filename) => {
-        console.log('extractZip preload', zipPath, filename);
+        console.log('extractZip preload', zipPath, filename)
         return ipcRenderer.invoke('extract-zip', { zipPath, filename })
       },
 
-      getDirectories: () =>
-        ipcRenderer.invoke('get-directories'),
+      getDirectories: () => ipcRenderer.invoke('get-directories'),
 
       onDownloadProgress: (callback) => {
         // Обработчик события прогресса
-        const progressHandler = (_, data) => callback(data);
+        const progressHandler = (_, data): void => callback(data)
 
-        console.log('progressHandler', progressHandler);
+        console.log('progressHandler', progressHandler)
 
         // Подписываемся на событие
-        ipcRenderer.on('download-progress', progressHandler);
+        ipcRenderer.on('download-progress', progressHandler)
 
         // Возвращаем функцию для отписки при необходимости
-        return () => {
-          ipcRenderer.removeListener('download-progress', progressHandler);
-        };
+        return (): void => {
+          ipcRenderer.removeListener('download-progress', progressHandler)
+        }
       }
-    });
+    })
   } catch (error) {
     console.error(error)
   }

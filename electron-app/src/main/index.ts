@@ -7,23 +7,23 @@ import * as fs from 'fs'
 
 import { download } from 'electron-dl'
 
-import { installExtension, REDUX_DEVTOOLS } from 'electron-devtools-installer';
-import AdmZip from 'adm-zip';
+import { installExtension, REDUX_DEVTOOLS } from 'electron-devtools-installer'
+import AdmZip from 'adm-zip'
 
-const checkAndCreateDir = (path: string) => {
+const checkAndCreateDir = (path: string): void => {
   if (!fs.existsSync(path)) {
-    fs.mkdirSync(path, { recursive: true });
+    fs.mkdirSync(path, { recursive: true })
   }
 }
 
-const downloadsPath = path.join(app.getPath('userData'), 'downloads');
-checkAndCreateDir(downloadsPath);
+const downloadsPath = path.join(app.getPath('userData'), 'downloads')
+checkAndCreateDir(downloadsPath)
 
-const instancesPath = path.join(app.getPath('userData'), 'instances');
-checkAndCreateDir(instancesPath);
+const instancesPath = path.join(app.getPath('userData'), 'instances')
+checkAndCreateDir(instancesPath)
 
-const javaPath = path.join(app.getPath('userData'), 'java');
-checkAndCreateDir(javaPath);
+const javaPath = path.join(app.getPath('userData'), 'java')
+checkAndCreateDir(javaPath)
 
 let mainWindow: BrowserWindow
 
@@ -66,7 +66,7 @@ function createWindow(): void {
 app.whenReady().then(() => {
   installExtension(REDUX_DEVTOOLS)
     .then((ext) => console.log(`Added Extension:  ${ext.name}`))
-    .catch((err) => console.log('An error occurred: ', err));
+    .catch((err) => console.log('An error occurred: ', err))
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -78,49 +78,49 @@ app.whenReady().then(() => {
   })
 
   ipcMain.on('start-minecraft', async (event, { username, ram, modpack }) => {
-    const launcher = new Client();
+    const launcher = new Client()
 
-    console.log('__dirname modpack', modpack);
+    console.log('__dirname modpack', modpack)
 
-    let options = {
+    const options = {
       authorization: {
-        access_token: "offline",
-        client_token: "123456",
-        uuid: "00000000-0000-0000-0000-000000000000",
+        access_token: 'offline',
+        client_token: '123456',
+        uuid: '00000000-0000-0000-0000-000000000000',
         name: username
       },
       root: path.join(instancesPath, modpack.folderName),
-      javaPath: path.join(__dirname, "../../resources", "java-runtime", "bin", "javaw.exe"),
+      javaPath: path.join(__dirname, '../../resources', 'java-runtime', 'bin', 'javaw.exe'),
       version: modpack.version,
       memory: {
         max: `${ram}M`,
-        min: "512M"
+        min: '512M'
       }
-    };
+    }
 
     try {
-      const launch = await launcher.launch(options as ILauncherOptions);
-      console.log('launch', launch);
+      const launch = await launcher.launch(options as ILauncherOptions)
+      console.log('launch', launch)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
 
     launcher.on('data', (data) => {
-      console.log(data.toString());
-    });
+      console.log(data.toString())
+    })
 
     launcher.on('error', (err) => {
-      console.error(err);
-    });
-  });
+      console.error(err)
+    })
+  })
 
   ipcMain.handle('download-file', async (event, { url, filename }) => {
     try {
       if (!filename) {
-        filename = path.basename(new URL(url).pathname);
+        filename = path.basename(new URL(url).pathname)
       }
 
-      const filePath = path.join(downloadsPath, filename);
+      const filePath = path.join(downloadsPath, filename)
 
       await download(mainWindow, url, {
         directory: downloadsPath,
@@ -130,86 +130,84 @@ app.whenReady().then(() => {
             percent: progress.percent,
             transferredBytes: progress.transferredBytes,
             totalBytes: progress.totalBytes
-          });
+          })
         }
-      });
+      })
 
       return {
         success: true,
         message: 'Файл успешно скачан',
         path: filePath,
         filename
-      };
+      }
     } catch (error) {
       return {
         success: false,
         message: `Ошибка при скачивании: ${error.message}`
-      };
+      }
     }
-  });
+  })
 
   ipcMain.handle('extract-zip', async (event, { zipPath, filename }) => {
     try {
-      const extractDir = path.join(instancesPath);
-      console.log('extractDir', extractDir, zipPath, filename);
+      const extractDir = path.join(instancesPath)
+      console.log('extractDir', extractDir, zipPath, filename)
 
-      const zip = new AdmZip(zipPath);
-      zip.extractAllTo(extractDir, true);
+      const zip = new AdmZip(zipPath)
+      zip.extractAllTo(extractDir, true)
 
       return {
         success: true,
         message: 'Файл успешно распакован',
         extractedTo: extractDir
-      };
+      }
     } catch (error) {
-      console.error('Ошибка при распаковке:', error);
+      console.error('Ошибка при распаковке:', error)
       return {
         success: false,
         message: `Ошибка при распаковке: ${error.message}`
-      };
+      }
     }
-  });
-
+  })
 
   ipcMain.handle('get-downloads-path', () => {
-    return downloadsPath;
-  });
-
+    return downloadsPath
+  })
 
   ipcMain.handle('get-downloaded-files', () => {
     try {
-      const files = fs.readdirSync(downloadsPath);
-      return files.map(file => ({
+      const files = fs.readdirSync(downloadsPath)
+      return files.map((file) => ({
         name: file,
         path: path.join(downloadsPath, file)
-      }));
+      }))
     } catch (error) {
       return {
         success: false,
         message: `Ошибка при получении списка файлов: ${error.message}`
-      };
+      }
     }
-  });
+  })
 
   ipcMain.handle('get-directories', () => {
     try {
-      const allItems = fs.readdirSync(instancesPath);
-      const directories = allItems.filter(item => {
-        const itemPath = path.join(instancesPath, item);
-        return fs.statSync(itemPath).isDirectory();
-      });
+      const allItems = fs.readdirSync(instancesPath)
+      const directories = allItems.filter((item) => {
+        const itemPath = path.join(instancesPath, item)
+        return fs.statSync(itemPath).isDirectory()
+      })
 
-      return directories.map(dir => ({
+      return directories.map((dir) => ({
         name: dir,
         path: path.join(instancesPath, dir)
-      }));
+      }))
     } catch (error) {
       return {
         success: false,
         message: `Ошибка при получении списка папок: ${error.message}`
-      };
+      }
     }
-  });
+  })
 
   createWindow()
 
@@ -231,5 +229,3 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-
