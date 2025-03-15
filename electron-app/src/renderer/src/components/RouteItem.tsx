@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import * as clsx from 'clsx'
+import { clsx } from 'clsx'
 
 export default function RouteItem({
   to,

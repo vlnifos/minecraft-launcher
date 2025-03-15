@@ -10,13 +10,12 @@ export default function Modpack({ modpack }: { modpack: any }): JSX.Element {
   const [isInstalled, setIsInstalled] = useState(false)
   const currentDownload = useSelector((state: RootState) => state.downloads.currentDownload)
   const installedModpacks = useSelector((state: RootState) => state.modpacks.installedModpacks)
-
   const handleDownloadModpack = (): void => {
-    dispatch(downloadFile({ url: modpack.fileUrl }))
+    dispatch(downloadFile({ url: modpack.fileUrl, isModpack: true }) as any)
   }
 
   const handlePlayModpack = (): void => {
-    dispatch(playModpack({ modpack }))
+    dispatch(playModpack({ modpack }) as any)
   }
 
   useEffect(() => {

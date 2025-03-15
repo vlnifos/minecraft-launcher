@@ -77,7 +77,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  ipcMain.on('start-minecraft', async (event, { username, ram, modpack }) => {
+  ipcMain.on('start-minecraft', async (event, { username, ram, modpack, javaPath }) => {
     const launcher = new Client()
 
     console.log('__dirname modpack', modpack)
@@ -90,13 +90,15 @@ app.whenReady().then(() => {
         name: username
       },
       root: path.join(instancesPath, modpack.folderName),
-      javaPath: path.join(__dirname, '../../resources', 'java-runtime', 'bin', 'javaw.exe'),
+      javaPath: path.join(javaPath, 'bin', 'javaw.exe'),
       version: modpack.version,
       memory: {
         max: `${ram}M`,
         min: '512M'
       }
     }
+
+    console.log('options123123', options)
 
     try {
       const launch = await launcher.launch(options as ILauncherOptions)
@@ -114,7 +116,7 @@ app.whenReady().then(() => {
     })
   })
 
-  ipcMain.handle('download-file', async (event, { url, filename }) => {
+  ipcMain.handle('download-file', async (event, { url, filename, isModpack }) => {
     try {
       if (!filename) {
         filename = path.basename(new URL(url).pathname)
@@ -138,7 +140,8 @@ app.whenReady().then(() => {
         success: true,
         message: 'Файл успешно скачан',
         path: filePath,
-        filename
+        filename,
+        isModpack
       }
     } catch (error) {
       return {
@@ -148,13 +151,14 @@ app.whenReady().then(() => {
     }
   })
 
-  ipcMain.handle('extract-zip', async (event, { zipPath, filename }) => {
+  ipcMain.handle('extract-zip', async (event, { zipPath, filename, isModpack }) => {
     try {
-      const extractDir = path.join(instancesPath)
+      const extractDir = isModpack ? instancesPath : path.join(javaPath)
+
       console.log('extractDir', extractDir, zipPath, filename)
 
       const zip = new AdmZip(zipPath)
-      zip.extractAllTo(extractDir, true)
+      await zip.extractAllToAsync(extractDir, true)
 
       return {
         success: true,
@@ -200,6 +204,26 @@ app.whenReady().then(() => {
       return directories.map((dir) => ({
         name: dir,
         path: path.join(instancesPath, dir)
+      }))
+    } catch (error) {
+      return {
+        success: false,
+        message: `Ошибка при получении списка папок: ${error.message}`
+      }
+    }
+  })
+
+  ipcMain.handle('get-java-directory', () => {
+    try {
+      const allItems = fs.readdirSync(javaPath)
+      const directories = allItems.filter((item) => {
+        const itemPath = path.join(javaPath, item)
+        return fs.statSync(itemPath).isDirectory()
+      })
+
+      return directories.map((dir) => ({
+        name: dir,
+        path: path.join(javaPath, dir)
       }))
     } catch (error) {
       return {

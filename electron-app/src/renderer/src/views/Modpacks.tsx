@@ -5,13 +5,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@renderer/store'
 import { fetchModpacks, updateInstalledModpacks } from '@renderer/store/slices/modpacks'
 import Modpack from '@renderer/components/Modpack'
+import Java from '@renderer/components/Java'
+import {
+  useSelectIsJavaInstalled,
+  useSelectIsDownloading,
+  useSelectIsInstallingInProgress
+} from '@renderer/store/hooks/selectors'
 
 export default function Modpacks(): JSX.Element {
   const dispatch = useDispatch()
   const modpacks = useSelector((state: RootState) => state.modpacks.modpacks)
 
+  const isJavaInstalled = useSelectIsJavaInstalled()
+  const isDownloading = useSelectIsDownloading()
+  const isInstallingInProgress = useSelectIsInstallingInProgress()
+  console.log('isJavaInstalled', isJavaInstalled)
+
   const handleFetchModpacks = useCallback((): void => {
-    dispatch(fetchModpacks())
+    dispatch(fetchModpacks() as any)
   }, [dispatch])
 
   useEffect(() => {
@@ -24,21 +35,21 @@ export default function Modpacks(): JSX.Element {
   }, [])
 
   useEffect(() => {
-    dispatch(updateInstalledModpacks())
+    dispatch(updateInstalledModpacks() as any)
     handleFetchModpacks()
   }, [dispatch, handleFetchModpacks])
 
   return (
     <div>
-      <button
-        className="bg-gray-700 hover:bg-gray-600 p-2 rounded-md m-4 cursor-pointer"
-        onClick={handleFetchModpacks}
-      >
-        Fetch Modpacks
-      </button>
-      {modpacks.map((modpack: any) => (
-        <Modpack key={modpack.modpackName} modpack={modpack} />
-      ))}
+      {!isDownloading && !isInstallingInProgress && (
+        <div>
+          {isJavaInstalled ? (
+            modpacks.map((modpack: any) => <Modpack key={modpack.modpackName} modpack={modpack} />)
+          ) : (
+            <Java />
+          )}
+        </div>
+      )}
     </div>
   )
 }

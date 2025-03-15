@@ -14,7 +14,8 @@ if (process.contextIsolated) {
 
     contextBridge.exposeInMainWorld('electronAPI', {
       // API для скачивания файлов
-      downloadFile: (url, filename) => ipcRenderer.invoke('download-file', { url, filename }),
+      downloadFile: (url, filename, isModpack) =>
+        ipcRenderer.invoke('download-file', { url, filename, isModpack }),
 
       downloadFileManual: (url, filename) =>
         ipcRenderer.invoke('download-file-manual', { url, filename }),
@@ -30,6 +31,8 @@ if (process.contextIsolated) {
       },
 
       getDirectories: () => ipcRenderer.invoke('get-directories'),
+
+      getJavaDirectory: () => ipcRenderer.invoke('get-java-directory'),
 
       onDownloadProgress: (callback) => {
         // Обработчик события прогресса

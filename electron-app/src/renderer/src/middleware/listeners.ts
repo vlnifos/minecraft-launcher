@@ -1,6 +1,6 @@
 import { createListenerMiddleware } from '@reduxjs/toolkit'
 import { downloadFile } from '@renderer/store/slices/downloadsSlice'
-import { extractZip } from '@renderer/store/slices/modpacks'
+import { extractZip, updateInstalledJava } from '@renderer/store/slices/modpacks'
 import { updateInstalledModpacks } from '@renderer/store/slices/modpacks'
 
 export const listenerMiddleware = createListenerMiddleware()
@@ -10,7 +10,11 @@ listenerMiddleware.startListening({
   effect: async (action, listenerApi) => {
     console.log('action downloadFile.fulfilled', action)
     listenerApi.dispatch(
-      extractZip({ zipPath: action.payload.path, filename: action.payload.filename })
+      extractZip({
+        zipPath: action.payload.path,
+        filename: action.payload.filename,
+        isModpack: action.payload.isModpack
+      })
     )
   }
 })
@@ -20,5 +24,6 @@ listenerMiddleware.startListening({
   effect: async (action, listenerApi) => {
     console.log('action extractZip.fulfilled', action)
     listenerApi.dispatch(updateInstalledModpacks())
+    listenerApi.dispatch(updateInstalledJava())
   }
 })
