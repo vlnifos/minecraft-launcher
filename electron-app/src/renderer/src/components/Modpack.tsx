@@ -30,10 +30,22 @@ export default function Modpack({ modpack }: { modpack: any }) {
 
       <div>
         {!isInstalled &&
-          (<button className="hover:bg-gray-600 p-2 rounded-md m-4 cursor-pointer" onClick={handleDownloadModpack} disabled={!modpack.isAvailable || currentDownload.active || !modpack.fileUrl}>Download</button>)
-        }
+          (
+            <button
+              className="hover:bg-gray-600 p-2 rounded-md m-4 cursor-pointer"
+              onClick={handleDownloadModpack}
+              disabled={!modpack.isAvailable || currentDownload.active || !modpack.fileUrl}
+            >
+              Download
+            </button>
+          )}
 
-        <button className="bg-gray-700 hover:bg-gray-600 p-2 rounded-md m-4 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" onClick={handlePlayModpack} disabled={!isInstalled}>Play</button>
+        <button
+          className="bg-gray-700 hover:bg-gray-600 p-2 rounded-md m-4 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={handlePlayModpack}
+          disabled={!isInstalled}>
+          Play
+        </button>
       </div>
     </div>
   )

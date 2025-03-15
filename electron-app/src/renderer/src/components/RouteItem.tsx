@@ -6,10 +6,13 @@ export default function RouteItem({ to, children }: { to: string, children: Reac
   const activeStyles = "text-blue-500"
 
   return (
-    <NavLink to={to} className={({ isActive }) => clsx(
-      baseStyles,
-      isActive && activeStyles
-    )}>
+    <NavLink
+      to={to}
+      className={({ isActive }) => clsx(
+        baseStyles,
+        isActive && activeStyles
+      )}
+    >
       {children}
     </NavLink>
   )

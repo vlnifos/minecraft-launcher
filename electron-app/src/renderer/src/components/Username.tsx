@@ -21,7 +21,14 @@ export default function Username() {
   }, [])
   return (
     <div>
-      <input className="p-4 rounded-md focus:bg-gray-600 bg-gray-700 border-none outline-none" type="text" placeholder="Username" onChange={(e) => setUsernameRaw(e.target.value)} value={usernameRaw} onBlur={handleUsernameInputBlur} />
+      <input
+        className="p-4 rounded-md focus:bg-gray-600 bg-gray-700 border-none outline-none"
+        type="text"
+        placeholder="Username"
+        onChange={(e) => setUsernameRaw(e.target.value)}
+        value={usernameRaw}
+        onBlur={handleUsernameInputBlur}
+      />
     </div>
   )
 }

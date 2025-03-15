@@ -1,6 +1,4 @@
-import { downloadFile, setDownloadUrl } from "@renderer/store/slices/downloadsSlice";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 
 export default function FileDownloader() {
