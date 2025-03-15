@@ -13,14 +13,12 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('api', api)
 
     contextBridge.exposeInMainWorld('electronAPI', {
-      // API для скачивания файлов
       downloadFile: (url, filename, isModpack) =>
         ipcRenderer.invoke('download-file', { url, filename, isModpack }),
 
       downloadFileManual: (url, filename) =>
         ipcRenderer.invoke('download-file-manual', { url, filename }),
 
-      // API для работы с директорией скачиваний
       getDownloadsPath: () => ipcRenderer.invoke('get-downloads-path'),
 
       getDownloadedFiles: () => ipcRenderer.invoke('get-downloaded-files'),
@@ -35,15 +33,12 @@ if (process.contextIsolated) {
       getJavaDirectory: () => ipcRenderer.invoke('get-java-directory'),
 
       onDownloadProgress: (callback) => {
-        // Обработчик события прогресса
         const progressHandler = (_, data): void => callback(data)
 
         console.log('progressHandler', progressHandler)
 
-        // Подписываемся на событие
         ipcRenderer.on('download-progress', progressHandler)
 
-        // Возвращаем функцию для отписки при необходимости
         return (): void => {
           ipcRenderer.removeListener('download-progress', progressHandler)
         }

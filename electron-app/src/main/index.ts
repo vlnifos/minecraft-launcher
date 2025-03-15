@@ -138,7 +138,7 @@ app.whenReady().then(() => {
 
       return {
         success: true,
-        message: 'Файл успешно скачан',
+        message: 'Downloaded successfully',
         path: filePath,
         filename,
         isModpack
@@ -146,7 +146,7 @@ app.whenReady().then(() => {
     } catch (error) {
       return {
         success: false,
-        message: `Ошибка при скачивании: ${error.message}`
+        message: `Error downloading file: ${error.message}`
       }
     }
   })
@@ -162,14 +162,14 @@ app.whenReady().then(() => {
 
       return {
         success: true,
-        message: 'Файл успешно распакован',
+        message: 'File successfully extracted',
         extractedTo: extractDir
       }
     } catch (error) {
-      console.error('Ошибка при распаковке:', error)
+      console.error('Error extracting file:', error)
       return {
         success: false,
-        message: `Ошибка при распаковке: ${error.message}`
+        message: `Error extracting file: ${error.message}`
       }
     }
   })
@@ -188,7 +188,7 @@ app.whenReady().then(() => {
     } catch (error) {
       return {
         success: false,
-        message: `Ошибка при получении списка файлов: ${error.message}`
+        message: `Error getting list of files: ${error.message}`
       }
     }
   })
@@ -208,7 +208,7 @@ app.whenReady().then(() => {
     } catch (error) {
       return {
         success: false,
-        message: `Ошибка при получении списка папок: ${error.message}`
+        message: `Error getting list of directories: ${error.message}`
       }
     }
   })
@@ -228,7 +228,7 @@ app.whenReady().then(() => {
     } catch (error) {
       return {
         success: false,
-        message: `Ошибка при получении списка папок: ${error.message}`
+        message: `Error getting list of directories: ${error.message}`
       }
     }
   })
