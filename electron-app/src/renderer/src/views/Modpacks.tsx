@@ -1,32 +1,32 @@
-import { setupProgressListener } from "@renderer/services/progressListener";
-import store from "@renderer/store";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@renderer/store";
-import { fetchModpacks, updateInstalledModpacks } from "@renderer/store/slices/modpacks";
-import Modpack from "@renderer/components/Modpack";
+import { setupProgressListener } from '@renderer/services/progressListener'
+import store from '@renderer/store'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@renderer/store'
+import { fetchModpacks, updateInstalledModpacks } from '@renderer/store/slices/modpacks'
+import Modpack from '@renderer/components/Modpack'
 
-export default function Modpacks() {
-  const dispatch = useDispatch();
-  const modpacks = useSelector((state: RootState) => state.modpacks.modpacks);
+export default function Modpacks(): JSX.Element {
+  const dispatch = useDispatch()
+  const modpacks = useSelector((state: RootState) => state.modpacks.modpacks)
 
-  const handleFetchModpacks = (): void => {
-    dispatch(fetchModpacks());
-  };
-
-  useEffect(() => {
-    const progressListener = setupProgressListener(store);
-    progressListener.subscribe();
-
-    return () => {
-      progressListener.unsubscribe();
-    };
-  }, []);
+  const handleFetchModpacks = useCallback((): void => {
+    dispatch(fetchModpacks())
+  }, [dispatch])
 
   useEffect(() => {
-    dispatch(updateInstalledModpacks());
-    handleFetchModpacks();
-  }, []);
+    const progressListener = setupProgressListener(store)
+    progressListener.subscribe()
+
+    return (): void => {
+      progressListener.unsubscribe()
+    }
+  }, [])
+
+  useEffect(() => {
+    dispatch(updateInstalledModpacks())
+    handleFetchModpacks()
+  }, [dispatch, handleFetchModpacks])
 
   return (
     <div>
@@ -40,5 +40,5 @@ export default function Modpacks() {
         <Modpack key={modpack.modpackName} modpack={modpack} />
       ))}
     </div>
-  );
+  )
 }

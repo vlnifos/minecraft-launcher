@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
-import type { RootState } from "../store";
+import { useSelector } from 'react-redux'
+import type { RootState } from '../store'
 
-export default function FileDownloader() {
+export default function FileDownloader(): JSX.Element {
   const currentDownload = useSelector((state: RootState) => state.downloads.currentDownload)
 
   return (
@@ -17,5 +17,5 @@ export default function FileDownloader() {
         )}
       </div>
     </div>
-  );
+  )
 }

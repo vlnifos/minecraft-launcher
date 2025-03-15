@@ -1,24 +1,25 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { setUsername } from "@renderer/store/slices/user";
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { setUsername } from '@renderer/store/slices/user'
 
-export default function Username() {
-  const [usernameRaw, setUsernameRaw] = useState('');
-  const dispatch = useDispatch();
+export default function Username(): JSX.Element {
+  const [usernameRaw, setUsernameRaw] = useState('')
+  const dispatch = useDispatch()
 
-  const handleUsernameInputBlur = () => {
-    dispatch(setUsername(usernameRaw));
-    localStorage.setItem('username', usernameRaw);
+  const handleUsernameInputBlur = (): void => {
+    dispatch(setUsername(usernameRaw))
+    localStorage.setItem('username', usernameRaw)
   }
 
   useEffect(() => {
-    const savedUsername = localStorage.getItem('username');
+    const savedUsername = localStorage.getItem('username')
     if (savedUsername) {
-      setUsernameRaw(savedUsername);
-      dispatch(setUsername(savedUsername));
+      setUsernameRaw(savedUsername)
+      dispatch(setUsername(savedUsername))
     }
-  }, [])
+  }, [dispatch])
+
   return (
     <div>
       <input

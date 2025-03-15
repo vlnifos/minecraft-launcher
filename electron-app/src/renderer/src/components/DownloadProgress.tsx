@@ -1,20 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
-const DownloadProgress = () => {
-  const progress = useSelector((state: any) => state.downloads.currentDownload.progress);
+const DownloadProgress = (): JSX.Element => {
+  const progress = useSelector((state: any) => state.downloads.currentDownload.progress)
 
   if (!progress) {
-    return null;
+    return <div></div>
   }
 
-  const { percent, transferredBytes, totalBytes } = progress;
+  const { percent, transferredBytes, totalBytes } = progress
 
   return (
     <div>
       <span>{percent}%</span>
-      <span>{transferredBytes} / {totalBytes}</span>
+      <span>
+        {transferredBytes} / {totalBytes}
+      </span>
     </div>
   )
 }
 
-export default DownloadProgress;
+export default DownloadProgress

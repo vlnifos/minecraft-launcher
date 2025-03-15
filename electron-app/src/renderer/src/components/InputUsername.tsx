@@ -1,13 +1,13 @@
-import { setUsername } from "@renderer/store/slices/user";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { setUsername } from '@renderer/store/slices/user'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
-export default function InputUsername() {
-  const dispatch = useDispatch();
-  const [inputUsername, setInputUsername] = useState('');
+export default function InputUsername(): JSX.Element {
+  const dispatch = useDispatch()
+  const [inputUsername, setInputUsername] = useState('')
 
-  const handleBlur = () => {
-    dispatch(setUsername(inputUsername));
+  const handleBlur = (): void => {
+    dispatch(setUsername(inputUsername))
   }
 
   return (

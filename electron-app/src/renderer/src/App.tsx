@@ -1,9 +1,9 @@
-import { GlobalStateProvider } from './store/providers/GlobalStateProvider';
-import Header from './components/Header';
-import Modpacks from './views/Modpacks';
-import { Route, Routes } from 'react-router-dom';
-import Friends from './views/Friends';
-import FileDownloader from './components/FileDownloader';
+import { GlobalStateProvider } from './store/providers/GlobalStateProvider'
+import Header from './components/Header'
+import Modpacks from './views/Modpacks'
+import { Route, Routes } from 'react-router-dom'
+import Friends from './views/Friends'
+import FileDownloader from './components/FileDownloader'
 
 function App(): JSX.Element {
   return (
@@ -21,4 +21,3 @@ function App(): JSX.Element {
 }
 
 export default App
-

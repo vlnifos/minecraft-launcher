@@ -1,29 +1,31 @@
 import { updateDownloadProgress, fetchDownloadedFiles } from '../store/slices/downloadsSlice'
 
-export const setupProgressListener = (store) => {
-  let unsubscribe: any;
+export const setupProgressListener = (
+  store: any
+): { subscribe: () => void; unsubscribe: () => void } => {
+  let unsubscribe: any
 
   return {
-    subscribe: () => {
+    subscribe: (): void => {
       if (unsubscribe) {
         return
       }
 
       unsubscribe = (window as any).electronAPI.onDownloadProgress((progress: any) => {
-        console.log('progress123123', progress);
+        console.log('progress123123', progress)
         store.dispatch(updateDownloadProgress(progress))
 
         if (progress.completed) {
           setTimeout(() => {
-            store.dispatch(fetchDownloadedFiles());
-          }, 500);
+            store.dispatch(fetchDownloadedFiles())
+          }, 500)
         }
-      });
+      })
     },
-    unsubscribe: () => {
+    unsubscribe: (): void => {
       if (unsubscribe) {
-        unsubscribe();
-        unsubscribe = null;
+        unsubscribe()
+        unsubscribe = null
       }
     }
   }

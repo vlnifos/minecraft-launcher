@@ -1,7 +1,7 @@
-import RouteItem from './RouteItem';
-import Username from './Username';
+import RouteItem from './RouteItem'
+import Username from './Username'
 
-export default function Header() {
+export default function Header(): JSX.Element {
   return (
     <div className="flex justify-between items-center p-4">
       {/* Routes */}

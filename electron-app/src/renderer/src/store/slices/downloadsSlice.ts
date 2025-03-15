@@ -106,7 +106,7 @@ const downloadsSlice = createSlice({
         }
         state.currentDownload.progress = { percent: 0, transferredBytes: 0, totalBytes: 0 }
       })
-      .addCase(downloadFile.fulfilled, (state, action) => {
+      .addCase(downloadFile.fulfilled, (state) => {
         state.status = 'succeeded'
         state.currentDownload.active = false
         state.currentDownload.type = ''
