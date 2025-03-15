@@ -26,11 +26,12 @@ export default function Modpacks() {
 
   useEffect(() => {
     dispatch(updateInstalledModpacks())
+    handleFetchModpacks()
   }, [])
 
   return (
     <div>
-      <button onClick={handleFetchModpacks}>Fetch Modpacks</button>
+      <button className="bg-gray-700 hover:bg-gray-600 p-2 rounded-md m-4 cursor-pointer" onClick={handleFetchModpacks}>Fetch Modpacks</button>
       {modpacks.map((modpack: any) => (
         <Modpack key={modpack.modpackName} modpack={modpack} />
       ))}
