@@ -23,9 +23,8 @@ if (process.contextIsolated) {
 
       getDownloadedFiles: () => ipcRenderer.invoke('get-downloaded-files'),
 
-      extractZip: (zipPath, filename) => {
-        console.log('extractZip preload', zipPath, filename)
-        return ipcRenderer.invoke('extract-zip', { zipPath, filename })
+      extractZip: (zipPath, filename, isModpack) => {
+        return ipcRenderer.invoke('extract-zip', { zipPath, filename, isModpack })
       },
 
       getDirectories: () => ipcRenderer.invoke('get-directories'),

@@ -54,7 +54,6 @@ export const extractZip = createAsyncThunk(
   'modpacks/extractZip',
   async (payload: { zipPath: string; filename: string; isModpack: boolean }, { dispatch }) => {
     dispatch(setIsInstallingInProgress(true))
-
     const response = await (window as any).electronAPI.extractZip(
       payload.zipPath,
       payload.filename,

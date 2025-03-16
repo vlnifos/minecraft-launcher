@@ -17,7 +17,7 @@ export const downloadFile = createAsyncThunk(
       const response = await (window as any).electronAPI.downloadFile(
         payload.url,
         payload.filename || '',
-        payload.isModpack || true
+        payload.isModpack !== undefined ? payload.isModpack : true
       )
 
       console.log('response', response)
