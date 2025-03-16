@@ -23,7 +23,7 @@ export default function Username(): JSX.Element {
   return (
     <div>
       <input
-        className="p-4 rounded-md focus:bg-gray-600 bg-gray-700 border-none outline-none"
+        className="p-8 pr-0 rounded-none focus:bg-gray-600 bg-gray-700 border-none outline-none w-80 text-white text-2xl font-bold"
         type="text"
         placeholder="Username"
         onChange={(e) => setUsernameRaw(e.target.value)}
