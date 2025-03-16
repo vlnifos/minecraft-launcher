@@ -1,34 +1,13 @@
-# electron-app
+# Minecraft Launcher for easy Modpacks installing
 
-An Electron application with React and TypeScript
+# Features
+- ✅ Easy java install
+- ✅ Fast install of Modpacks
+- ✅ TODO: Friends system for easy create/join proxyed lobby
+- ✅ TODO: Microsoft Login
+- ✅ TODO: Own Modpacks shares
 
-## Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-## Project Setup
-
-### Install
-
-```bash
-$ yarn
-```
-
-### Development
-
-```bash
-$ yarn dev
-```
-
-### Build
-
-```bash
-# For windows
-$ yarn build:win
-
-# For macOS
-$ yarn build:mac
-
-# For Linux
-$ yarn build:linux
-```
+# How to use?
+1. Download zip file from `releases` tab
+2. Unpack in any folder
+3. Play!
