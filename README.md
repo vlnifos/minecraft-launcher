@@ -1,7 +1,7 @@
 # Minecraft Launcher for easy Modpacks installing
 
 # Demo
-<video src="https://cdn.vlnifos.work/minecraft-launcher-promo.mp4" controls></video>
+https://github.com/user-attachments/assets/29b06575-5a25-4fee-8515-f84715b36abe
 
 # Features
 - ✅ Easy java install
@@ -14,3 +14,6 @@
 1. Download `.exe` file from `releases` tab
 2. Install
 3. Play!
+
+
+
