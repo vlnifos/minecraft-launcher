@@ -8,6 +8,6 @@
 - ✅ TODO: Own Modpacks shares
 
 # How to use?
-1. Download zip file from `releases` tab
-2. Unpack in any folder
+1. Download `.exe` file from `releases` tab
+2. Install
 3. Play!
