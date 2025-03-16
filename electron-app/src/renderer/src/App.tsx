@@ -11,10 +11,12 @@ function App(): JSX.Element {
       <div className="flex flex-col h-screen w-screen flex-start">
         <Header />
         <FileDownloader />
-        <Routes>
-          <Route path="/" element={<Modpacks />} />
-          <Route path="/friends" element={<Friends />} />
-        </Routes>
+        <div>
+          <Routes>
+            <Route path="/" element={<Modpacks />} />
+            <Route path="/friends" element={<Friends />} />
+          </Routes>
+        </div>
       </div>
     </GlobalStateProvider>
   )

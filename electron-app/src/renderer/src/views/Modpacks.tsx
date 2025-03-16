@@ -40,9 +40,9 @@ export default function Modpacks(): JSX.Element {
   }, [dispatch, handleFetchModpacks])
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full mt-24">
       {!isDownloading && !isInstallingInProgress && (
-        <div className="w-full h-full">
+        <div className="w-full h-full flex flex-col flex-start">
           {isJavaInstalled ? (
             modpacks.map((modpack: any) => <Modpack key={modpack.modpackName} modpack={modpack} />)
           ) : (

@@ -35,7 +35,11 @@ export default function Modpack({ modpack }: { modpack: any }): JSX.Element {
         />
       </div>
       <div className="flex w-full">
-        <h2 className="text-gray-600 text-5xl font-bold text-left ml-8">{modpack.modpackName}</h2>
+        <h2
+          className={` text-5xl font-bold text-left ml-8 ${isInstalled ? 'text-gray-200' : 'text-gray-600'}`}
+        >
+          {modpack.modpackName}
+        </h2>
       </div>
 
       <div className="h-full flex">
