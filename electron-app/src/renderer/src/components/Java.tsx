@@ -1,24 +1,21 @@
-import { RootState } from '@renderer/store'
-import { useSelectIsJavaInstalled } from '@renderer/store/hooks/selectors'
+import { useAppDispatch } from '@renderer/store/hooks/dispatch'
+import { useAppSelector, useSelectIsJavaInstalled } from '@renderer/store/hooks/selectors'
 import { downloadFile } from '@renderer/store/slices/downloadsSlice'
 import { updateInstalledJava } from '@renderer/store/slices/modpacks'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 
 export default function Java(): JSX.Element {
-  const dispatch = useDispatch()
-  const javaUrl = useSelector(
-    (state: RootState) => state.modpacks.java && state.modpacks.java.fileUrl
-  )
+  const dispatch = useAppDispatch()
+  const javaUrl = useAppSelector((state) => state.modpacks.java && state.modpacks.java.fileUrl)
 
   const isJavaInstalled = useSelectIsJavaInstalled()
 
   const handleInstallJava = (): void => {
-    dispatch(downloadFile({ url: javaUrl, isModpack: false }) as any)
+    dispatch(downloadFile({ url: javaUrl || '', isModpack: false }))
   }
 
   useEffect(() => {
-    dispatch(updateInstalledJava() as any)
+    dispatch(updateInstalledJava())
   }, [dispatch])
 
   return (

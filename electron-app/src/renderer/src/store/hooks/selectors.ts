@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useSelector, TypedUseSelectorHook } from 'react-redux'
 import { RootState } from '..'
 
 export const useSelectIsJavaInstalled = (): boolean =>
@@ -12,3 +12,5 @@ export const useSelectIsDownloading = (): boolean =>
 
 export const useSelectIsInstallingInProgress = (): boolean =>
   useSelector((state: RootState) => state.modpacks.isInstallingInProgress)
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

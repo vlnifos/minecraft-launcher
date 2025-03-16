@@ -50,7 +50,7 @@ export class DownloadService {
         filename,
         isModpack
       }
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         message: `Error downloading file: ${error.message}`

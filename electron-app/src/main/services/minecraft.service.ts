@@ -46,7 +46,7 @@ export class MinecraftService {
     try {
       await launcher.launch(launchOptions)
       this.mainWindow.webContents.send('minecraft-status', { status: 'launched' })
-    } catch (error) {
+    } catch (error: any) {
       this.mainWindow.webContents.send('minecraft-status', {
         status: 'error',
         message: error.message

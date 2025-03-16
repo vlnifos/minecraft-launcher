@@ -1,7 +1,9 @@
+import { AppDispatch } from '@renderer/store'
 import { updateDownloadProgress, fetchDownloadedFiles } from '../store/slices/downloadsSlice'
+import { Store } from '@reduxjs/toolkit'
 
 export const setupProgressListener = (
-  store: any
+  store: Store
 ): { subscribe: () => void; unsubscribe: () => void } => {
   let unsubscribe: any
 
@@ -11,13 +13,13 @@ export const setupProgressListener = (
         return
       }
 
-      unsubscribe = (window as any).electronAPI.onDownloadProgress((progress: any) => {
-        console.log('progress123123', progress)
+      unsubscribe = window.electronAPI.onDownloadProgress((progress: any) => {
         store.dispatch(updateDownloadProgress(progress))
 
         if (progress.completed) {
           setTimeout(() => {
-            store.dispatch(fetchDownloadedFiles())
+            const dispatch = store.dispatch as AppDispatch
+            dispatch(fetchDownloadedFiles())
           }, 500)
         }
       })

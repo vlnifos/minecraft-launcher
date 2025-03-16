@@ -1,6 +1,6 @@
 export const getFilenameFromUrl = (url: string): string => {
   try {
-    return new URL(url).pathname.split('/').pop()
+    return new URL(url).pathname.split('/').pop() || ''
   } catch {
     return ''
   }

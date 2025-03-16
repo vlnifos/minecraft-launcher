@@ -31,7 +31,7 @@ export class ExtractService {
         message: 'File successfully extracted',
         extractedTo: extractDir
       }
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         message: `Error extracting file: ${error.message}`

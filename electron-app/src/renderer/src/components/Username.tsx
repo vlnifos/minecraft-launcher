@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { setUsername } from '@renderer/store/slices/user'
+import { useAppDispatch } from '@renderer/store/hooks/dispatch'
 
 export default function Username(): JSX.Element {
   const [usernameRaw, setUsernameRaw] = useState('')
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const handleUsernameInputBlur = (): void => {
     dispatch(setUsername(usernameRaw))

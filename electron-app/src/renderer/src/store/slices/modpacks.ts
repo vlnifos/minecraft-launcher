@@ -1,6 +1,18 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '..'
 
+export interface ModpackFetchResponse {
+  modpackName: string
+  isAvailable: boolean
+  fileUrl: string
+  folderName: string
+  imageUrl: string
+  version: {
+    number: string
+    type: string
+  }
+}
+
 interface Modpack {
   id: string
   name: string
@@ -10,17 +22,21 @@ interface Modpack {
   }
 }
 
-interface ModpackDirectory {
+interface Java {
+  fileUrl: string
+}
+
+interface Directory {
   name: string
   path: string
 }
 
 interface ModpacksState {
-  modpacks: Modpack[]
-  java: any | null
+  modpacks: ModpackFetchResponse[]
+  java: Java | null
   isInstallingInProgress: boolean
-  installedModpacks: ModpackDirectory[]
-  installedJava: any[]
+  installedModpacks: Directory[]
+  installedJava: Directory[]
 }
 
 export const fetchModpacks = createAsyncThunk('modpacks/fetchModpacks', async () => {
@@ -54,7 +70,7 @@ export const extractZip = createAsyncThunk(
   'modpacks/extractZip',
   async (payload: { zipPath: string; filename: string; isModpack: boolean }, { dispatch }) => {
     dispatch(setIsInstallingInProgress(true))
-    const response = await (window as any).electronAPI.extractZip(
+    const response = await window.electronAPI.extractZip(
       payload.zipPath,
       payload.filename,
       payload.isModpack
@@ -66,13 +82,13 @@ export const extractZip = createAsyncThunk(
 export const updateInstalledModpacks = createAsyncThunk(
   'modpacks/updateInstalledModpacks',
   async () => {
-    const response = await (window as any).electronAPI.getDirectories()
+    const response = await window.electronAPI.getDirectories()
     return response
   }
 )
 
 export const updateInstalledJava = createAsyncThunk('modpacks/updateInstalledJava', async () => {
-  const response = await (window as any).electronAPI.getJavaDirectory()
+  const response = await window.electronAPI.getJavaDirectory()
   return response
 })
 
@@ -86,9 +102,6 @@ export const modpacksSlice = createSlice({
     installedJava: []
   } as ModpacksState,
   reducers: {
-    setModpacks: (state, action: PayloadAction<Modpack[]>) => {
-      state.modpacks = action.payload
-    },
     setIsInstallingInProgress: (state, action: PayloadAction<boolean>) => {
       state.isInstallingInProgress = action.payload
     }
@@ -115,6 +128,6 @@ export const modpacksSlice = createSlice({
   }
 })
 
-export const { setModpacks, setIsInstallingInProgress } = modpacksSlice.actions
+export const { setIsInstallingInProgress } = modpacksSlice.actions
 
 export default modpacksSlice.reducer

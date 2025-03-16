@@ -1,23 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { downloadFile } from '@renderer/store/slices/downloadsSlice'
-import { RootState } from '@renderer/store'
+import { ModpackFetchResponse, playModpack } from '@renderer/store/slices/modpacks'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { playModpack } from '@renderer/store/slices/modpacks'
+import { useAppDispatch } from '@renderer/store/hooks/dispatch'
+import { useAppSelector } from '@renderer/store/hooks/selectors'
 
 const modpackPlaceholderImage = 'https://cdn.vlnifos.work/minecraft-placeholder.png'
 
-export default function Modpack({ modpack }: { modpack: any }): JSX.Element {
-  const dispatch = useDispatch()
+export default function Modpack({ modpack }: { modpack: ModpackFetchResponse }): JSX.Element {
+  const dispatch = useAppDispatch()
   const [isInstalled, setIsInstalled] = useState(false)
-  const currentDownload = useSelector((state: RootState) => state.downloads.currentDownload)
-  const installedModpacks = useSelector((state: RootState) => state.modpacks.installedModpacks)
+  const currentDownload = useAppSelector((state) => state.downloads.currentDownload)
+  const installedModpacks = useAppSelector((state) => state.modpacks.installedModpacks)
   const handleDownloadModpack = (): void => {
-    dispatch(downloadFile({ url: modpack.fileUrl, isModpack: true }) as any)
+    dispatch(downloadFile({ url: modpack.fileUrl, isModpack: true }))
   }
 
   const handlePlayModpack = (): void => {
-    dispatch(playModpack({ modpack }) as any)
+    dispatch(playModpack({ modpack }))
   }
 
   useEffect(() => {

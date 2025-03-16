@@ -5,7 +5,7 @@ export function setupMinecraftHandlers(minecraftService: MinecraftService): void
   ipcMain.on('start-minecraft', async (event, options: MinecraftOptions) => {
     try {
       await minecraftService.launchGame(options)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error launching Minecraft:', error)
       event.reply('minecraft-status', {
         status: 'error',

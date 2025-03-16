@@ -1,20 +1,26 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export const fetchDownloadsPath = createAsyncThunk('downloads/fetchDownloadsPath', async () => {
-  const response = await (window as any).electronAPI.getDownloadsPath()
+  const response = await window.electronAPI.getDownloadsPath()
   return response
 })
 
 export const fetchDownloadedFiles = createAsyncThunk('downloads/fetchDownloadedFiles', async () => {
-  const response = await (window as any).electronAPI.getDownloadedFiles()
+  const response = await window.electronAPI.getDownloadedFiles()
   return response
 })
 
+interface DownloadFilePayload {
+  url: string
+  filename?: string
+  isModpack?: boolean
+}
+
 export const downloadFile = createAsyncThunk(
   'downloads/downloadFile',
-  async (payload: { url: string; filename?: string; isModpack?: boolean }, { rejectWithValue }) => {
+  async (payload: DownloadFilePayload, { rejectWithValue }) => {
     try {
-      const response = await (window as any).electronAPI.downloadFile(
+      const response = await window.electronAPI.downloadFile(
         payload.url,
         payload.filename || '',
         payload.isModpack !== undefined ? payload.isModpack : true
@@ -33,6 +39,12 @@ export const downloadFile = createAsyncThunk(
   }
 )
 
+interface DownloadProgress {
+  percent: number
+  transferredBytes: number
+  totalBytes: number
+}
+
 const downloadsSlice = createSlice({
   name: 'downloads',
   initialState: {
@@ -44,7 +56,7 @@ const downloadsSlice = createSlice({
       url: '',
       type: 'modpack', // modpack, java
       filename: '',
-      progress: null as any,
+      progress: null as DownloadProgress | null,
       error: ''
     },
     error: ''
@@ -99,11 +111,12 @@ const downloadsSlice = createSlice({
         state.error = action.error.message || 'Error'
       })
       // download file
-      .addCase(downloadFile.pending, (state, action: any) => {
+      .addCase(downloadFile.pending, (state, action) => {
+        console.log('action', JSON.stringify(action))
         state.status = 'loading'
         state.currentDownload.active = true
         if (action.payload) {
-          state.currentDownload.type = action.payload.isModpack ? 'modpack' : 'java'
+          state.currentDownload.type = action.meta.arg.isModpack ? 'modpack' : 'java'
         }
         state.currentDownload.progress = { percent: 0, transferredBytes: 0, totalBytes: 0 }
       })

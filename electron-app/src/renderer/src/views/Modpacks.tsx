@@ -1,20 +1,20 @@
 import { setupProgressListener } from '@renderer/services/progressListener'
 import store from '@renderer/store'
 import { useCallback, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@renderer/store'
 import { fetchModpacks, updateInstalledModpacks } from '@renderer/store/slices/modpacks'
 import Modpack from '@renderer/components/Modpack'
 import Java from '@renderer/components/Java'
 import {
   useSelectIsJavaInstalled,
   useSelectIsDownloading,
-  useSelectIsInstallingInProgress
+  useSelectIsInstallingInProgress,
+  useAppSelector
 } from '@renderer/store/hooks/selectors'
+import { useAppDispatch } from '@renderer/store/hooks/dispatch'
 
 export default function Modpacks(): JSX.Element {
-  const dispatch = useDispatch()
-  const modpacks = useSelector((state: RootState) => state.modpacks.modpacks)
+  const dispatch = useAppDispatch()
+  const modpacks = useAppSelector((state) => state.modpacks.modpacks)
 
   const isJavaInstalled = useSelectIsJavaInstalled()
   const isDownloading = useSelectIsDownloading()
@@ -22,7 +22,7 @@ export default function Modpacks(): JSX.Element {
   console.log('isJavaInstalled', isJavaInstalled)
 
   const handleFetchModpacks = useCallback((): void => {
-    dispatch(fetchModpacks() as any)
+    dispatch(fetchModpacks())
   }, [dispatch])
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Modpacks(): JSX.Element {
   }, [])
 
   useEffect(() => {
-    dispatch(updateInstalledModpacks() as any)
+    dispatch(updateInstalledModpacks())
     handleFetchModpacks()
   }, [dispatch, handleFetchModpacks])
 
@@ -44,7 +44,7 @@ export default function Modpacks(): JSX.Element {
       {!isDownloading && !isInstallingInProgress && (
         <div className="w-full h-full flex flex-col flex-start">
           {isJavaInstalled ? (
-            modpacks.map((modpack: any) => <Modpack key={modpack.modpackName} modpack={modpack} />)
+            modpacks.map((modpack) => <Modpack key={modpack.modpackName} modpack={modpack} />)
           ) : (
             <Java />
           )}
