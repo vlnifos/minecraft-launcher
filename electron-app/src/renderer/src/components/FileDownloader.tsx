@@ -18,7 +18,7 @@ export default function FileDownloader(): JSX.Element {
           {isDownloading && !isInstallingInProgress && (
             <div className="flex justify-center items-center h-full w-full">
               <span>Downloading... </span>
-              <span>({Math.round(currentDownload.progress.percent * 100)}%)</span>
+              <span>{Math.round((currentDownload.progress?.percent || 0) * 100)}%</span>
             </div>
           )}
           {isInstallingInProgress && <div>Installing...</div>}

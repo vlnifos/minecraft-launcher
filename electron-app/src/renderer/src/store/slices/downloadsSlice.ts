@@ -16,6 +16,12 @@ interface DownloadFilePayload {
   isModpack?: boolean
 }
 
+export interface DownloadProgress {
+  percent: number
+  transferredBytes: number
+  totalBytes: number
+}
+
 export const downloadFile = createAsyncThunk(
   'downloads/downloadFile',
   async (payload: DownloadFilePayload, { rejectWithValue }) => {
@@ -38,12 +44,6 @@ export const downloadFile = createAsyncThunk(
     }
   }
 )
-
-interface DownloadProgress {
-  percent: number
-  transferredBytes: number
-  totalBytes: number
-}
 
 const downloadsSlice = createSlice({
   name: 'downloads',

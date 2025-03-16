@@ -3,6 +3,7 @@ import downloadsReducer from './slices/downloadsSlice'
 import userReducer from './slices/user'
 import modpacksReducer from './slices/modpacks'
 import { listenerMiddleware } from '../middleware/listeners'
+
 export const store = configureStore({
   reducer: {
     downloads: downloadsReducer,

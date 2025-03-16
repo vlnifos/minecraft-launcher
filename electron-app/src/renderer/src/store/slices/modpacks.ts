@@ -13,15 +13,6 @@ export interface ModpackFetchResponse {
   }
 }
 
-interface Modpack {
-  id: string
-  name: string
-  version: {
-    number: string
-    type: string
-  }
-}
-
 interface Java {
   fileUrl: string
 }
@@ -31,7 +22,7 @@ interface Directory {
   path: string
 }
 
-interface ModpacksState {
+export interface ModpacksState {
   modpacks: ModpackFetchResponse[]
   java: Java | null
   isInstallingInProgress: boolean
