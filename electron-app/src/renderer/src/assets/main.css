@@ -5,6 +5,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-x: hidden;
   background-image: url('./minecraft-background.png');
   background-size: cover;
   user-select: none;

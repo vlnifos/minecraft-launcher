@@ -40,9 +40,9 @@ export default function Modpacks(): JSX.Element {
   }, [dispatch, handleFetchModpacks])
 
   return (
-    <div>
+    <div className="w-full h-full">
       {!isDownloading && !isInstallingInProgress && (
-        <div>
+        <div className="w-full h-full">
           {isJavaInstalled ? (
             modpacks.map((modpack: any) => <Modpack key={modpack.modpackName} modpack={modpack} />)
           ) : (

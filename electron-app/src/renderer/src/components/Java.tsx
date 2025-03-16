@@ -22,10 +22,10 @@ export default function Java(): JSX.Element {
   }, [dispatch])
 
   return (
-    <div>
+    <div className="flex justify-center items-center h-full w-full">
       <button
         disabled={isJavaInstalled}
-        className="bg-gray-700 hover:bg-gray-600 p-2 rounded-md m-4 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-gray-700 hover:bg-gray-600 p-20 rounded-md m-20 w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-white text-5xl font-bold"
         onClick={handleInstallJava}
       >
         Install Java
